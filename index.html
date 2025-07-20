@@ -1,213 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepSeek Chatbot</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        #chat-container {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-        #chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-        }
-        #chat-input {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #ddd;
-        }
-        #user-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        #send-button {
-            margin-left: 10px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .message {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            max-width: 80%;
-        }
-        .user-message {
-            background-color: #e3f2fd;
-            margin-left: auto;
-        }
-        .bot-message {
-            background-color: #f1f1f1;
-            margin-right: auto;
-        }
-        .typing-indicator {
-            display: inline-block;
-            padding: 10px;
-            background-color: #f1f1f1;
-            border-radius: 4px;
-        }
-        .typing-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #666;
-            margin: 0 2px;
-            animation: typingAnimation 1.4s infinite ease-in-out;
-        }
-        .typing-dot:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        @keyframes typingAnimation {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-    </style>
-</head>
-<body>
-    <h1>DeepSeek Chatbot</h1>
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <div id="chat-input">
-            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
-            <button id="send-button">Send</button>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L'Oréal | Smart Routine &amp; Product Advisor</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <!------- Header / Branding ------->
+      <header class="site-header">
+        <img src="img/loreal-logo.png" alt="L'Oréal Logo" class="logo" />
+        <h1 class="site-title">Smart Routine &amp; Product Advisor</h1>
+      </header>
+
+      <!-- Category Filter -->
+      <div class="search-section">
+        <select id="categoryFilter">
+          <option value="" disabled selected>Choose a Category</option>
+          <option value="cleanser">Cleansers</option>
+          <option value="moisturizer">Moisturizers & Treatments</option>
+          <option value="haircare">Haircare</option>
+          <option value="makeup">Makeup</option>
+          <option value="hair color">Hair Color</option>
+          <option value="hair styling">Hair Styling</option>
+          <option value="men's grooming">Men's Grooming</option>
+          <option value="suncare">Suncare</option>
+          <option value="fragrance">Fragrance</option>
+        </select>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="productsContainer" class="products-grid"></div>
+
+      <!-- Selected Products -->
+      <div class="selected-products">
+        <h2>Selected Products</h2>
+        <div id="selectedProductsList"></div>
+        <button id="generateRoutine" class="generate-btn">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Routine
+        </button>
+      </div>
+
+      <!------- Chat Area ------->
+      <section class="chatbox">
+        <h2>Let's Build Your Routine</h2>
+        <div id="chatWindow" class="chat-window"></div>
+
+        <form id="chatForm" class="chat-form">
+          <label for="userInput" class="visually-hidden">Message</label>
+          <input
+            id="userInput"
+            name="userInput"
+            type="text"
+            placeholder="Ask me about products or routines…"
+            autocomplete="off"
+            required
+          />
+          <button type="submit" id="sendBtn">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span class="visually-hidden">Send</span>
+          </button>
+        </form>
+      </section>
+
+      <!------- Footer Links ------->
+      <footer class="site-footer">
+        <p>&copy; 2025 L'Oréal. All rights reserved.</p>
+        <nav>
+          <!-- These URLs are placeholders -->
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Contact</a>
+        </nav>
+      </footer>
     </div>
 
-    <script>
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
-        
-        // Conversation history
-        let conversationHistory = [
-            {
-                role: "system",
-                content: "You are a helpful assistant."
-            }
-        ];
-        
-        // Function to add a message to the chat
-        function addMessage(role, content) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(role + '-message');
-            messageDiv.textContent = content;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // Function to show typing indicator
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('typing-indicator');
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = `
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-                <span class="typing-dot"></span>
-            `;
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // Function to hide typing indicator
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-        
-        // Function to send message to the Cloudflare Worker
-        async function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
-            
-            // Add user message to UI and history
-            addMessage('user', message);
-            conversationHistory.push({
-                role: "user",
-                content: message
-            });
-            
-            // Clear input
-            userInput.value = '';
-            
-            // Show typing indicator
-            showTypingIndicator();
-            
-            try {
-                // Send to Cloudflare Worker
-                const response = await fetch('https://owies.ddang3.workers.dev/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        messages: conversationHistory
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                // Hide typing indicator
-                hideTypingIndicator();
-                
-                // Add bot response to UI and history
-                const botMessage = data.choices[0].message.content;
-                addMessage('bot', botMessage);
-                conversationHistory.push({
-                    role: "assistant",
-                    content: botMessage
-                });
-            } catch (error) {
-                // Hide typing indicator
-                hideTypingIndicator();
-                
-                // Show error message
-                addMessage('bot', `Sorry, I encountered an error: ${error.message}`);
-                console.error('Error:', error);
-            }
-        }
-        
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-        
-        // Initial greeting
-        addMessage('bot', "Hello! How can I help you today?");
-    </script>
-</body>
+    <!-- secrets.js can be removed when using Cloudflare Workers for API requests -->
+    <script src="secrets.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
