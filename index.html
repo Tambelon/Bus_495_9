@@ -162,7 +162,7 @@
             
             try {
                 // Send to Cloudflare Worker
-                const response = await fetch('https://owies.ddang3.workers.dev/', {
+                const response = await fetch('https://owies.ddang3.workers.dev/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
