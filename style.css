@@ -11,6 +11,7 @@ body {
   color: #333;
   display: flex;
   justify-content: center;
+  background-color: #000;
 }
 
 .page-wrapper {
@@ -34,6 +35,7 @@ body {
   font-size: 22px;
   font-weight: 500;
   margin-bottom: 10px;
+  color: #D4AF37; /* gold */
 }
 
 /* category filter */
@@ -46,29 +48,32 @@ body {
   width: 100%;
   padding: 16px;
   font-size: 18px;
-  border: 2px solid #000;
+  border: 2px solid #D4AF37; /* gold */
   border-radius: 8px;
   cursor: pointer;
-  background-color: white;
+  background-color: #000;
   font-weight: 500;
+  color: #fff;
 }
 
 .search-section select:focus {
   outline: none;
-  border-color: #666;
+  border-color: #E31937; /* hot rod red */
 }
 
 /* chat section */
 .chatbox {
   margin: 40px 0;
-  border: 2px solid #000;
+  border: 2px solid #D4AF37; /* gold */
   border-radius: 8px;
   padding: 26px;
+  background-color: #000;
 }
 
 .chatbox h2 {
   font-size: 20px;
   margin-bottom: 20px;
+  color: #D4AF37; /* gold */
 }
 
 .chat-window {
@@ -77,8 +82,10 @@ body {
   line-height: 1.5;
   height: 250px;
   overflow-y: auto;
-  background: #fafafa;
+  background: #111;
   margin-bottom: 20px;
+  color: #fff;
+  border: 1px solid #333;
 }
 
 /* placeholder message */
@@ -102,18 +109,19 @@ body {
   padding: 12px;
   font-size: 18px;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid #333;
   background: transparent;
+  color: #fff;
 }
 
 .chat-form input:focus {
   outline: none;
-  border-bottom-color: #000;
+  border-bottom-color: #E31937; /* hot rod red */
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
+  background: #E31937; /* hot rod red */
   color: #fff;
   border: none;
   padding: 12px;
@@ -127,11 +135,11 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: #B8142C; /* darker red */
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #D4AF37; /* gold */
   outline-offset: 2px;
 }
 
@@ -162,12 +170,12 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #D4AF37; /* gold */
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: #E31937; /* hot rod red */
 }
 
 /* products grid */
@@ -180,12 +188,13 @@ body {
 
 .product-card {
   flex: 0 1 calc(33.333% - 14px);
-  border: 1px solid #ccc;
+  border: 1px solid #333;
   padding: 15px;
   border-radius: 4px;
   display: flex;
   gap: 15px;
   min-height: 160px;
+  background-color: #111;
 }
 
 .product-card img {
@@ -206,24 +215,27 @@ body {
 .product-card h3 {
   font-size: 16px;
   margin-bottom: 8px;
+  color: #fff;
 }
 
 .product-card p {
   font-size: 14px;
-  color: #666;
+  color: #999;
 }
 
 /* selected products */
 .selected-products {
   margin: 40px 0;
   padding: 20px;
-  border: 2px solid #000;
+  border: 2px solid #D4AF37; /* gold */
   border-radius: 8px;
+  background-color: #000;
 }
 
 .selected-products h2 {
   font-size: 20px;
   margin-bottom: 20px;
+  color: #D4AF37; /* gold */
 }
 
 #selectedProductsList {
@@ -239,7 +251,7 @@ body {
   font-size: 18px;
   font-weight: 500;
   color: #fff;
-  background: #000;
+  background: #E31937; /* hot rod red */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -247,7 +259,7 @@ body {
 }
 
 .generate-btn:hover {
-  background: #666;
+  background: #B8142C; /* darker red */
 }
 
 .generate-btn i {
