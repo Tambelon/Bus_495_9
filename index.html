@@ -88,5 +88,88 @@
     <!-- secrets.js can be removed when using Cloudflare Workers for API requests -->
     <script src="secrets.js"></script>
     <script src="script.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const productCards = document.querySelectorAll('.product-card');
+  const selectedProductsList = document.getElementById('selectedProductsList');
+  
+  // Initialize selected products array
+  let selectedProducts = [];
+  
+  // Add click event to all product cards
+  productCards.forEach(card => {
+    card.addEventListener('click', function() {
+      const productId = this.dataset.productId || Math.random().toString(36).substr(2, 9);
+      
+      // If product doesn't have ID, add one
+      if (!this.dataset.productId) {
+        this.dataset.productId = productId;
+      }
+      
+      // Toggle selection
+      if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+        selectedProducts = selectedProducts.filter(p => p.id !== productId);
+      } else {
+        this.classList.add('selected');
+        const productInfo = {
+          id: productId,
+          name: this.querySelector('h3').textContent,
+          img: this.querySelector('img').src
+        };
+        selectedProducts.push(productInfo);
+      }
+      
+      updateSelectedProductsList();
+    });
+  });
+  
+  // Update the selected products list display
+  function updateSelectedProductsList() {
+    selectedProductsList.innerHTML = '';
+    
+    selectedProducts.forEach(product => {
+      const listItem = document.createElement('div');
+      listItem.className = 'selected-product-item';
+      listItem.dataset.productId = product.id;
+      
+      listItem.innerHTML = `
+        <img src="${product.img}" alt="${product.name}">
+        <span class="product-name">${product.name}</span>
+        <button class="remove-btn" title="Remove product">×</button>
+      `;
+      
+      // Add remove event
+      const removeBtn = listItem.querySelector('.remove-btn');
+      removeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        removeProduct(product.id);
+      });
+      
+      // Also allow clicking anywhere on the item to remove
+      listItem.addEventListener('click', function() {
+        removeProduct(product.id);
+      });
+      
+      selectedProductsList.appendChild(listItem);
+    });
+  }
+  
+  // Remove product from selection
+  function removeProduct(productId) {
+    // Remove from array
+    selectedProducts = selectedProducts.filter(p => p.id !== productId);
+    
+    // Update UI
+    updateSelectedProductsList();
+    
+    // Remove selected class from card
+    const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+    if (card) {
+      card.classList.remove('selected');
+    }
+  }
+});
+</script>
   </body>
 </html>
